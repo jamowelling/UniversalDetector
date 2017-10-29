@@ -8,8 +8,26 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Sound from 'react-native-sound';
+
+const beep = new Sound('beep6.mp3', Sound.MAIN_BUNDLE, (error) => {
+  if (error) {
+    // console.log('failed to load the sound', error);
+    return;
+  }
+});
 
 export default class App extends Component<{}> {
+  play = () => {
+    beep.play(success => {
+      if (success) {
+        // console.log('successfully finished playing');
+      } else {
+        // console.log('playback failed due to audio decoding errors');
+        beep.reset();
+      }
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -20,6 +38,7 @@ export default class App extends Component<{}> {
             color='grey'
             backgroundColor='rgba(0,0,0,0)'
             size={25}
+            onPress={null}
           />
         </View>
 
@@ -34,7 +53,7 @@ export default class App extends Component<{}> {
             style={styles.slider}
             minimumValue={0.5}
             maximumValue={100}
-            onValueChange={null}
+            onValueChange={this.play}
           />
         </View>
 
