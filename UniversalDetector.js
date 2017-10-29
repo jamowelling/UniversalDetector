@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Slider,
+  Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -29,7 +30,12 @@ export default class App extends Component<{}> {
         </View>
 
         <View style={styles.sliderWrapper}>
-          <Slider />
+          <Slider
+            style={styles.slider}
+            minimumValue={0.5}
+            maximumValue={100}
+            onValueChange={null}
+          />
         </View>
 
       </View>
@@ -60,5 +66,8 @@ const styles = StyleSheet.create({
   },
   sliderWrapper: {
     flex: 1,
+  },
+  slider: {
+    width: Dimensions.get('window').width,
   },
 });
