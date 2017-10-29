@@ -5,11 +5,13 @@ import {
   Text,
   View
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
+        <Icon name='cog' color='black' />
         <Text style={styles.welcome}>
           Universal Detector!
         </Text>
