@@ -10,13 +10,6 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Sound from 'react-native-sound';
 
-// const beep = new Sound('beep4.mp3', Sound.MAIN_BUNDLE, (error) => {
-//   if (error) {
-//     console.log('failed to load the sound', error);
-//     return;
-//   }
-// });
-
 export default class App extends Component<{}> {
   state = {
     sliderValue: 0,
