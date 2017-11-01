@@ -12,7 +12,6 @@ import Sound from 'react-native-sound';
 
 export default class App extends Component<{}> {
   state = {
-    sliderValue: 0,
     beep: 0,
   };
   beeps = {
@@ -57,7 +56,6 @@ export default class App extends Component<{}> {
     this.beeps.beep5.stop();
   }
   valueChange = (sliderValue) => {
-    this.setState({ sliderValue });
     if (sliderValue === 0) {
       this.setState({ beep: 0 });
       this.stop();
