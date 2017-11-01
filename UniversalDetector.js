@@ -9,11 +9,14 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Sound from 'react-native-sound';
+import Modal from 'react-native-modal';
+import OptionsModal from './OptionsModal';
 
 export default class App extends Component<{}> {
   state = {
-    sliderValue: 0,
     beep: 0,
+    modalVisible: false,
+    thingDetected: null,
   };
   beeps = {
     beep1: new Sound('beep1.mp3', Sound.MAIN_BUNDLE, null),
@@ -21,6 +24,17 @@ export default class App extends Component<{}> {
     beep3: new Sound('beep3.mp3', Sound.MAIN_BUNDLE, null),
     beep4: new Sound('beep4.mp3', Sound.MAIN_BUNDLE, null),
     beep5: new Sound('beep5.mp3', Sound.MAIN_BUNDLE, null),
+  }
+  detectSpecify = (thingDetected) => {
+    this.setState({ thingDetected });
+  }
+  detectionText = () => {
+    if (!this.state.thingDetected) {
+      return 'Universal Detector';
+    } else if (this.state.beep === 5) {
+      return `${this.state.thingDetected.toUpperCase()} DETECTED`;
+    }
+    return `Detecting ${this.state.thingDetected}...`;
   }
   play = (beep) => {
     this.stop();
@@ -57,7 +71,6 @@ export default class App extends Component<{}> {
     this.beeps.beep5.stop();
   }
   valueChange = (sliderValue) => {
-    this.setState({ sliderValue });
     if (sliderValue === 0) {
       this.setState({ beep: 0 });
       this.stop();
@@ -85,19 +98,27 @@ export default class App extends Component<{}> {
     return (
       <View style={styles.container}>
 
+        <Modal isVisible={this.state.modalVisible}>
+          <OptionsModal
+            detectSpecify={this.detectSpecify}
+            thingDetected={this.state.thingDetected}
+            closeModal={() => this.setState({ modalVisible: false })}
+          />
+        </Modal>
+
         <View style={styles.settingsBar}>
           <Icon.Button
             name='cog'
             color='grey'
             backgroundColor='rgba(0,0,0,0)'
             size={25}
-            onPress={this.stop}
+            onPress={() => this.setState({ modalVisible: true })}
           />
         </View>
 
         <View style={styles.detectorTextWrapper}>
           <Text style={styles.detectorText}>
-            Universal Detector!
+            {this.detectionText()}
           </Text>
         </View>
 
