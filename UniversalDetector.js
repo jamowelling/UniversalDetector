@@ -101,6 +101,8 @@ export default class App extends Component<{}> {
         <Modal isVisible={this.state.modalVisible}>
           <OptionsModal
             detectSpecify={this.detectSpecify}
+            thingDetected={this.state.thingDetected}
+            closeModal={() => this.setState({ modalVisible: false })}
           />
         </Modal>
 
@@ -116,7 +118,7 @@ export default class App extends Component<{}> {
 
         <View style={styles.detectorTextWrapper}>
           <Text style={styles.detectorText}>
-            Universal Detector!
+            {this.detectionText()}
           </Text>
         </View>
 
