@@ -16,6 +16,7 @@
         "max-len": ["error", 100],
         "keyword-spacing": ["error", { "before": true, "after": true }],
         "quotes": ["error", "single"],
-        "no-console": "warn"
+        "no-console": "warn",
+        "react/prop-types": "warn"
     }
 }
