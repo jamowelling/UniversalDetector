@@ -10,23 +10,83 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Sound from 'react-native-sound';
 
-const beep = new Sound('beep6.mp3', Sound.MAIN_BUNDLE, (error) => {
-  if (error) {
-    // console.log('failed to load the sound', error);
-    return;
-  }
-});
+// const beep = new Sound('beep4.mp3', Sound.MAIN_BUNDLE, (error) => {
+//   if (error) {
+//     console.log('failed to load the sound', error);
+//     return;
+//   }
+// });
 
 export default class App extends Component<{}> {
-  play = () => {
-    beep.play(success => {
-      if (success) {
-        // console.log('successfully finished playing');
-      } else {
-        // console.log('playback failed due to audio decoding errors');
-        beep.reset();
-      }
-    })
+  state = {
+    sliderValue: 0,
+    beep: 0,
+  };
+  beeps = {
+    beep1: new Sound('beep1.mp3', Sound.MAIN_BUNDLE, null),
+    beep2: new Sound('beep2.mp3', Sound.MAIN_BUNDLE, null),
+    beep3: new Sound('beep3.mp3', Sound.MAIN_BUNDLE, null),
+    beep4: new Sound('beep4.mp3', Sound.MAIN_BUNDLE, null),
+    beep5: new Sound('beep5.mp3', Sound.MAIN_BUNDLE, null),
+  }
+  play = (beep) => {
+    this.stop();
+    switch (beep) {
+      case 1:
+        this.beeps.beep1.setNumberOfLoops(-1);
+        this.beeps.beep1.play();
+        return;
+      case 2:
+        this.beeps.beep2.setNumberOfLoops(-1);
+        this.beeps.beep2.play();
+        return;
+      case 3:
+        this.beeps.beep3.setNumberOfLoops(-1);
+        this.beeps.beep3.play();
+        return;
+      case 4:
+        this.beeps.beep4.setNumberOfLoops(-1);
+        this.beeps.beep4.play();
+        return;
+      case 5:
+        this.beeps.beep5.setNumberOfLoops(-1);
+        this.beeps.beep5.play();
+        return;
+      default:
+        return;
+    }
+  }
+  stop = () => {
+    this.beeps.beep1.stop();
+    this.beeps.beep2.stop();
+    this.beeps.beep3.stop();
+    this.beeps.beep4.stop();
+    this.beeps.beep5.stop();
+  }
+  valueChange = (sliderValue) => {
+    this.setState({ sliderValue });
+    if (sliderValue === 0) {
+      this.setState({ beep: 0 });
+      this.stop();
+      return;
+    } else if (sliderValue === 4 && this.state.beep !== 5) {
+      this.setState({ beep: 5 });
+      this.play(5);
+      return;
+    } else if (sliderValue <= 1 && this.state.beep !== 1) {
+      this.setState({ beep: 1});
+      this.play(1);
+      return;
+    } else if (sliderValue <= 2 && sliderValue > 1 && this.state.beep !== 2) {
+      this.setState({ beep: 2 });
+      this.play(2);
+    } else if (sliderValue <= 3 && sliderValue > 2 && this.state.beep !== 3) {
+      this.setState({ beep: 3 });
+      this.play(3);
+    } else if (sliderValue < 4 && sliderValue > 3 && this.state.beep !== 4) {
+      this.setState({ beep: 4 });
+      this.play(4);
+    }
   }
   render() {
     return (
@@ -38,7 +98,7 @@ export default class App extends Component<{}> {
             color='grey'
             backgroundColor='rgba(0,0,0,0)'
             size={25}
-            onPress={null}
+            onPress={this.stop}
           />
         </View>
 
@@ -51,9 +111,9 @@ export default class App extends Component<{}> {
         <View style={styles.sliderWrapper}>
           <Slider
             style={styles.slider}
-            minimumValue={0.5}
-            maximumValue={100}
-            onValueChange={this.play}
+            minimumValue={0}
+            maximumValue={4}
+            onValueChange={this.valueChange}
           />
         </View>
 
