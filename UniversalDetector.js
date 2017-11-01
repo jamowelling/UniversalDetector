@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Sound from 'react-native-sound';
+import Modal from 'react-native-modal';
 
 export default class App extends Component<{}> {
   state = {
     beep: 0,
+    modalVisible: false,
   };
   beeps = {
     beep1: new Sound('beep1.mp3', Sound.MAIN_BUNDLE, null),
@@ -83,13 +85,17 @@ export default class App extends Component<{}> {
     return (
       <View style={styles.container}>
 
+        <Modal isVisible={this.state.modalVisible}>
+          <View />
+        </Modal>
+
         <View style={styles.settingsBar}>
           <Icon.Button
             name='cog'
             color='grey'
             backgroundColor='rgba(0,0,0,0)'
             size={25}
-            onPress={this.stop}
+            onPress={() => this.setState({ modalVisible: true })}
           />
         </View>
 
