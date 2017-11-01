@@ -10,11 +10,13 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Sound from 'react-native-sound';
 import Modal from 'react-native-modal';
+import OptionsModal from './OptionsModal';
 
 export default class App extends Component<{}> {
   state = {
     beep: 0,
     modalVisible: false,
+    thingDetected: null,
   };
   beeps = {
     beep1: new Sound('beep1.mp3', Sound.MAIN_BUNDLE, null),
@@ -22,6 +24,17 @@ export default class App extends Component<{}> {
     beep3: new Sound('beep3.mp3', Sound.MAIN_BUNDLE, null),
     beep4: new Sound('beep4.mp3', Sound.MAIN_BUNDLE, null),
     beep5: new Sound('beep5.mp3', Sound.MAIN_BUNDLE, null),
+  }
+  detectSpecify = (thingDetected) => {
+    this.setState({ thingDetected });
+  }
+  detectionText = () => {
+    if (!this.state.thingDetected) {
+      return 'Universal Detector';
+    } else if (this.state.beep === 5) {
+      return `${this.state.thingDetected.toUpperCase()} DETECTED`;
+    }
+    return `Detecting ${this.state.thingDetected}...`;
   }
   play = (beep) => {
     this.stop();
@@ -86,7 +99,9 @@ export default class App extends Component<{}> {
       <View style={styles.container}>
 
         <Modal isVisible={this.state.modalVisible}>
-          <View />
+          <OptionsModal
+            detectSpecify={this.detectSpecify}
+          />
         </Modal>
 
         <View style={styles.settingsBar}>
